@@ -13,8 +13,7 @@ namespace ReadOnlySequencePlayground
 
             // Create linked segments
             var first = new MemorySegment<int>(arrayOne);
-            var second = first.Append(arrayTwo);
-            var last = second.Append(arrayThree);
+            var last = first.Append(arrayTwo).Append(arrayThree);
             
             // Create the sequence, passing first and last segments
             var ros = new ReadOnlySequence<int>(first, 0, last, last.Memory.Length);
