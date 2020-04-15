@@ -5,8 +5,6 @@ namespace ReadOnlySequencePlayground
 {
     internal class Program
     {
-        private const int MaxStackLength = 32; // 128 bytes
-
         private static void Main()
         {
             var arrayOne = new[] { 0, 1, 2, 3, 4 };
@@ -27,11 +25,13 @@ namespace ReadOnlySequencePlayground
 
         private static void ParseExampleOne(ReadOnlySequence<int> ros)
         {
+            const int maxStackLength = 32; // 128 bytes
+
             var sequenceReader = new SequenceReader<int>(ros);
 
             var sequenceLength = Convert.ToInt32(sequenceReader.Length); // may throw for large sequences
 
-            Span<int> output = sequenceLength < MaxStackLength
+            Span<int> output = sequenceLength < maxStackLength
                 ? stackalloc int[sequenceLength] // For small amounts of data we optimise to the stack for the output
                 : new int[sequenceLength]; // This allocates and could be improved using ArrayPool<T>
 
@@ -59,6 +59,8 @@ namespace ReadOnlySequencePlayground
 
         private static void ParseExampleTwo(ReadOnlySequence<int> ros)
         {
+            const int maxStackLength = 32; // 128 bytes
+
             var sequenceReader = new SequenceReader<int>(ros);
 
             //Try to find and start reading from '6' onward
@@ -68,7 +70,7 @@ namespace ReadOnlySequencePlayground
             var remaining = sequenceReader.Sequence.Slice(sequenceReader.Position);
             var length = Convert.ToInt32(remaining.Length); // may throw for large sequences
 
-            Span<int> output = length < MaxStackLength
+            Span<int> output = length < maxStackLength
                 ? stackalloc int[length] // For small amounts of data we optimise to the stack for the output
                 : new int[length]; // This allocates and could be improved using ArrayPool<T>
 
