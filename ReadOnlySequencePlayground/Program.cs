@@ -24,7 +24,7 @@ namespace ReadOnlySequencePlayground
 
         private static void ParseExampleOne(ReadOnlySequence<int> ros)
         {
-            const int maxStackLength = 32; // 128 bytes
+            const int maxStackLength = 32; // 32 integers at 4 bytes each = 128 bytes
 
             var sequenceReader = new SequenceReader<int>(ros);
 
